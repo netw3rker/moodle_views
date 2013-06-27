@@ -18,7 +18,8 @@ INSTALLATION & CONFIGURATION
 USAGE
 -----
 
-The module defines two default enabled views, that appear in the Management menu:
+The module defines two default enabled views, that appear in the Management
+menu:
 
  * Moodle users, under "People".
  * Moodle courses, under "Content".

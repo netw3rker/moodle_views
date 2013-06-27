@@ -51,8 +51,8 @@ class moodle_views_handler_field_grade extends views_handler_field_numeric {
       '#description' => t("How to display the grade."),
       '#type' => 'radios',
       '#options' => array(
-        'raw' => 'raw',
-        'percent' => 'percent'
+        'raw' => t('Raw number'),
+        'percent' => t('Percentage')
       ),
       '#default_value' => $this->options['display_format']
     );

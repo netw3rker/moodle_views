@@ -134,9 +134,9 @@ class moodle_views_range_join extends views_join {
 
     $select_query->addJoin($this->type, $right_table, $table['alias'], $condition, $arguments);
 
-    // Build second join onto same table
+    // Build second join onto same table.
     $select_query->addJoin('LEFT', $right_table, $table['alias'] . '2', "$table[alias].$this->field < $table[alias]2.$this->field AND $left_field >= $table[alias]2.$this->field");
-    // Add requirement for NULL
+    // Add requirement for NULL.
     $select_query->isNull("$table[alias]2.$this->field");
   }
 }
