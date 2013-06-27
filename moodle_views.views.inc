@@ -101,7 +101,6 @@ function moodle_views_views_data() {
   $data['course_graded']['table']['group'] = t('Moodle Grades');
 
   // ----- course category table -----
-
   $data['course_categories']['table']['group'] = t('Moodle Course');
 
   $data['course_categories']['name'] = array(
@@ -248,7 +247,6 @@ function moodle_views_views_data() {
   );
 
   // ----- author table alias -----
-
   $data['author'] = $data['user'];
   unset($data['author']['table']['base']);
   $data['author']['table']['group'] = t('Moodle Course Author');
@@ -256,7 +254,6 @@ function moodle_views_views_data() {
   $data['author']['username']['help'] = t('The username for the author.');
 
   // ----- creator table alias -----
-
   $data['creator'] = $data['user'];
   unset($data['creator']['table']['base']);
   $data['creator']['table']['group'] = t('Moodle Course Creator');
@@ -446,7 +443,6 @@ function moodle_views_views_data() {
   );
 
   // ============== Link courses to users =================
-
   $data['user']['table']['join']['course'] = array(
     'left_table' => 'user_enrolments',
     'left_field' => 'userid',
@@ -476,7 +472,6 @@ function moodle_views_views_data() {
   );
 
   // ============== Link courses to authors (teachers) ==============
-
   $data['author']['table']['join']['course'] = array(
     'table' => 'user',
     'left_table' => 'author_role_assignments',
@@ -512,7 +507,6 @@ function moodle_views_views_data() {
   );
 
   // ============== Link courses to creator ==============
-
   $data['creator']['table']['join']['course'] = array(
     'table' => 'user',
     'left_table' => 'creator_role_assignments',
@@ -549,7 +543,6 @@ function moodle_views_views_data() {
   );
 
   // =============== Link users to courses =============
-
   $data['course']['table']['join']['user'] = array(
     'left_table' => 'enrol',
     'left_field' => 'courseid',
