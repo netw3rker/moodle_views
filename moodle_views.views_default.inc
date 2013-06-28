@@ -156,7 +156,7 @@ function moodle_views_views_default_views() {
 
   $view = new view();
   $view->name = 'moodle_views_moodle_courses';
-  $view->description = '';
+  $view->description = 'Administrator list of Moodle courses';
   $view->tag = 'default';
   $view->base_table = 'course';
   $view->human_name = 'Moodle courses';
@@ -239,7 +239,7 @@ function moodle_views_views_default_views() {
 
   $view = new view();
   $view->name = 'my_courses';
-  $view->description = '';
+  $view->description = 'List the courses a user is enrolled on on their account page. Requires EVA module to work.';
   $view->tag = 'default';
   $view->base_table = 'course';
   $view->human_name = 'My Courses';
