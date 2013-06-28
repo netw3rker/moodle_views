@@ -237,5 +237,93 @@ function moodle_views_views_default_views() {
 
   $views[$view->name] = $view;
 
+  $view = new view();
+  $view->name = 'my_courses';
+  $view->description = '';
+  $view->tag = 'default';
+  $view->base_table = 'course';
+  $view->human_name = 'My Courses';
+  $view->core = 7;
+  $view->api_version = '3.0';
+  $view->disabled = FALSE;
+
+  /* Display: Master */
+  $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['title'] = 'My Courses';
+  $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['access']['type'] = 'none';
+  $handler->display->display_options['cache']['type'] = 'none';
+  $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['pager']['type'] = 'full';
+  $handler->display->display_options['style_plugin'] = 'table';
+  $handler->display->display_options['style_options']['columns'] = array(
+    'id' => 'id',
+    'fullname' => 'fullname',
+    'timestart' => 'timestart'
+  );
+  $handler->display->display_options['style_options']['default'] = '-1';
+  $handler->display->display_options['style_options']['info'] = array(
+    'id' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0
+    ),
+    'fullname' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0
+    ),
+    'timestart' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0
+    )
+  );
+  /* No results behavior: Global: Text area */
+  $handler->display->display_options['empty']['area']['id'] = 'area';
+  $handler->display->display_options['empty']['area']['table'] = 'views';
+  $handler->display->display_options['empty']['area']['field'] = 'area';
+  $handler->display->display_options['empty']['area']['empty'] = TRUE;
+  $handler->display->display_options['empty']['area']['content'] = '<p>You aren\'t enroled on any courses yet. When you are, they will be listed here.</p>';
+  $handler->display->display_options['empty']['area']['format'] = 'filtered_html';
+  /* Field: Moodle Course: Course Title */
+  $handler->display->display_options['fields']['fullname']['id'] = 'fullname';
+  $handler->display->display_options['fields']['fullname']['table'] = 'course';
+  $handler->display->display_options['fields']['fullname']['field'] = 'fullname';
+  $handler->display->display_options['fields']['fullname']['link_to_course'] = TRUE;
+  /* Field: Moodle User-enrolement: User-enrolment start time */
+  $handler->display->display_options['fields']['timestart']['id'] = 'timestart';
+  $handler->display->display_options['fields']['timestart']['table'] = 'user_enrolments';
+  $handler->display->display_options['fields']['timestart']['field'] = 'timestart';
+  $handler->display->display_options['fields']['timestart']['label'] = 'Enrolled';
+  $handler->display->display_options['fields']['timestart']['date_format'] = 'long';
+  /* Contextual filter: Moodle User: Username */
+  $handler->display->display_options['arguments']['username']['id'] = 'username';
+  $handler->display->display_options['arguments']['username']['table'] = 'user';
+  $handler->display->display_options['arguments']['username']['field'] = 'username';
+  $handler->display->display_options['arguments']['username']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['username']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['username']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['username']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['username']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['username']['limit'] = '0';
+
+  /* Display: EVA Field */
+  $handler = $view->new_display('entity_view', 'EVA Field', 'entity_view_1');
+  $handler->display->display_options['entity_type'] = 'user';
+  $handler->display->display_options['bundles'] = array(
+    0 => 'user'
+  );
+  $handler->display->display_options['argument_mode'] = 'token';
+  $handler->display->display_options['default_argument'] = '[user:name]';
+  $handler->display->display_options['show_title'] = 1;
+
+  $views[$view->name] = $view;
+
   return $views;
 }
