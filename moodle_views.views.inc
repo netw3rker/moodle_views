@@ -21,8 +21,8 @@ function moodle_views_views_data() {
   );
 
   $data['course']['id'] = array(
-    'title' => t('Course ID'),
-    'help' => t('The unique ID for a course.'),
+    'title' => t('ID'),
+    'help' => t('The unique internal ID for a course.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
       'click sortable' => TRUE
@@ -37,7 +37,7 @@ function moodle_views_views_data() {
   );
 
   $data['course']['fullname'] = array(
-    'title' => t('Course Title'),
+    'title' => t('Full name'),
     'help' => t('The full name of the course.'),
     'field' => array(
       'handler' => 'moodle_views_handler_field_course',
@@ -53,7 +53,7 @@ function moodle_views_views_data() {
   );
 
   $data['course']['shortname'] = array(
-    'title' => t('Course Short Name'),
+    'title' => t('Short Name'),
     'help' => t('The short name of the course.'),
     'field' => array(
       'handler' => 'moodle_views_handler_field_course',
@@ -68,8 +68,24 @@ function moodle_views_views_data() {
     )
   );
 
+  $data['course']['idnumber'] = array(
+    'title' => t('ID number'),
+    'help' => t('The ID number of the course.'),
+    'field' => array(
+      'handler' => 'moodle_views_handler_field_course',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_string',
+      'label' => t('Course short name')
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort'
+    )
+  );
+
   $data['course']['summary'] = array(
-    'title' => t('Course Summary'),
+    'title' => t('Summary'),
     'help' => t('The summary description of the course.'),
     'field' => array(
       'handler' => 'views_handler_field_markup',
@@ -86,12 +102,53 @@ function moodle_views_views_data() {
   );
 
   $data['course']['coursedisplay'] = array(
-    'title' => t('Course Display'),
+    'title' => t('Display'),
     'help' => t('The display setting of the course.'),
     'filter' => array(
       'handler' => 'views_handler_filter_boolean_operator',
       'label' => t('Course display'),
       'type' => 'enabled-disabled'
+    )
+  );
+
+  $data['course']['startdate'] = array(
+    'title' => t('Start date'),
+    'help' => t('The date this course starts on.'),
+    'field' => array(
+      'handler' => 'views_handler_field_date'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_date'
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_date'
+    )
+  );
+  $data['course']['timecreated'] = array(
+    'title' => t('Time created'),
+    'help' => t('The date and time this course was created.'),
+    'field' => array(
+      'handler' => 'views_handler_field_date'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_date'
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_date'
+    )
+  );
+
+  $data['course']['timemodified'] = array(
+    'title' => t('Time modified'),
+    'help' => t('The date and time this course was last modified.'),
+    'field' => array(
+      'handler' => 'views_handler_field_date'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_date'
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_date'
     )
   );
 
@@ -140,8 +197,8 @@ function moodle_views_views_data() {
   );
 
   $data['user']['id'] = array(
-    'title' => t('User ID'),
-    'help' => t('The unique ID for a user.'),
+    'title' => t('ID'),
+    'help' => t('The unique internal ID for a user.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
       'click sortable' => TRUE
@@ -168,7 +225,7 @@ function moodle_views_views_data() {
       'handler' => 'views_handler_argument_string'
     ),
     'relationship' => array(
-      'label' => 'Moodle author name',
+      'label' => 'Moodle teacher name',
       'database' => 'moodle',
       'base' => 'moodle_views_live.node',
       'base_field' => 'title'
@@ -249,15 +306,13 @@ function moodle_views_views_data() {
   // ----- author table alias -----
   $data['author'] = $data['user'];
   unset($data['author']['table']['base']);
-  $data['author']['table']['group'] = t('Moodle Course Author');
-  $data['author']['username']['title'] = t('Author username');
-  $data['author']['username']['help'] = t('The username for the author.');
+  $data['author']['table']['group'] = t('Moodle Course Teacher');
+  $data['author']['username']['help'] = t('The username for the course teacher.');
 
   // ----- creator table alias -----
   $data['creator'] = $data['user'];
   unset($data['creator']['table']['base']);
   $data['creator']['table']['group'] = t('Moodle Course Creator');
-  $data['creator']['username']['title'] = t('Creator username');
   $data['creator']['username']['help'] = t('The username for the course creator.');
 
   // ----- enrol table -----
@@ -335,13 +390,13 @@ function moodle_views_views_data() {
     ),
     'filter' => array(
       'handler' => 'views_handler_filter_boolean_operator',
-      'label' => t('User-enrolment suspended'),
+      'label' => t('Suspended'),
       'type' => 'yes-no'
     )
   );
 
   $data['user_enrolments']['timestart'] = array(
-    'title' => t('User-enrolment start time'),
+    'title' => t('Start time'),
     'help' => t('The date this user-enrolement started'),
     'field' => array(
       'handler' => 'views_handler_field_date'
@@ -356,8 +411,8 @@ function moodle_views_views_data() {
   $data['grade_grades']['table']['group'] = t('Moodle Grades');
 
   $data['grade_grades']['id'] = array(
-    'title' => t('Grade ID'),
-    'help' => t('The Moodle grade ID'),
+    'title' => t('ID'),
+    'help' => t('The internal Moodle grade ID'),
     'field' => array(
       'handler' => 'views_handler_field_numeric'
     )
@@ -370,7 +425,7 @@ function moodle_views_views_data() {
     )
   );
   $data['grade_grades']['timecreated'] = array(
-    'title' => t('Grade date and time'),
+    'title' => t('Date and time'),
     'help' => t('The date and time this grade was created'),
     'field' => array(
       'handler' => 'views_handler_field_date'
@@ -385,7 +440,7 @@ function moodle_views_views_data() {
   $data['grade_items']['table']['group'] = t('Moodle Grades');
 
   $data['grade_items']['itemname'] = array(
-    'title' => t('Grade name'),
+    'title' => t('Name'),
     'help' => t('The name of the thing generating the grade'),
     'field' => array(
       'handler' => 'views_handler_field'
@@ -415,7 +470,7 @@ function moodle_views_views_data() {
   );
 
   $data['grade_items']['grademax'] = array(
-    'title' => t('Maximum grade score'),
+    'title' => t('Maximum score'),
     'help' => t('The maximum score for the grade'),
     'field' => array(
       'handler' => 'views_handler_field'
@@ -423,7 +478,7 @@ function moodle_views_views_data() {
   );
 
   $data['grade_items']['grademin'] = array(
-    'title' => t('Minimum grade score'),
+    'title' => t('Minimum score'),
     'help' => t('The minimum score for the grade'),
     'field' => array(
       'handler' => 'views_handler_field'
@@ -435,7 +490,7 @@ function moodle_views_views_data() {
 
   $data['grade_letters']['table']['group'] = t('Moodle Grades');
   $data['grade_letters']['letter'] = array(
-    'title' => t('Grade letter'),
+    'title' => t('Letter'),
     'help' => t('The grade letter assigned to this grade'),
     'field' => array(
       'handler' => 'views_handler_field'
@@ -471,7 +526,7 @@ function moodle_views_views_data() {
     )
   );
 
-  // ============== Link courses to authors (teachers) ==============
+  // ============== Link courses to teachers (role ID = 3) ==============
   $data['author']['table']['join']['course'] = array(
     'table' => 'user',
     'left_table' => 'author_role_assignments',
