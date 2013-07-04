@@ -256,6 +256,18 @@ function moodle_views_views_data() {
     )
   );
 
+  $data['user']['idnumber'] = array(
+    'title' => t('IDnumber'),
+    'help' => t('The idnumber (for external authentication) of the user. Can be the matching account\'s UID in Drupal.'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort'
+    )
+  );
+
   $data['user']['email'] = array(
     'title' => t('Email'),
     'help' => t('The email address for the user.'),
