@@ -152,7 +152,7 @@ function moodle_views_views_data() {
     )
   );
 
-  // ----- graded course alias
+  // ----- graded course alias -----
   $data['course_graded'] = $data['course'];
   unset($data['course_graded']['table']['base']);
   $data['course_graded']['table']['group'] = t('Moodle Grades');
@@ -186,6 +186,11 @@ function moodle_views_views_data() {
     'left_field' => 'category',
     'field' => 'id'
   );
+
+  // ----- graded course category alias -----
+  $data['course_categories_graded'] = $data['course_categories'];
+  unset($data['course_categories_graded']['table']['base']);
+  $data['course_categories_graded']['table']['group'] = t('Moodle Grades');
 
   // ----- user table -----
   $data['user']['table']['group'] = t('Moodle User');
@@ -257,11 +262,18 @@ function moodle_views_views_data() {
   );
 
   $data['user']['idnumber'] = array(
-    'title' => t('IDnumber'),
+    'title' => t('ID number'),
     'help' => t('The idnumber (for external authentication) of the user. Can be the matching account\'s UID in Drupal.'),
     'field' => array(
       'handler' => 'views_handler_field',
       'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_string',
+      'label' => t('ID number')
+    ),
+    'argument' => array(
+      'handler' => 'views_handler_argument_string'
     ),
     'sort' => array(
       'handler' => 'views_handler_sort'
@@ -652,10 +664,20 @@ function moodle_views_views_data() {
   );
 
   // ============ Link users to graded courses ================
+  // LEFT JOIN {course} course_graded ON grade_items.courseid = course_graded.id
   $data['course_graded']['table']['join']['user'] = array(
     'table' => 'course',
     'left_table' => 'grade_items',
     'left_field' => 'courseid',
+    'field' => 'id'
+  );
+
+  // ============ Link users to graded course categories ================
+  // LEFT JOIN {course_categories} course_categories_graded ON course_graded.category = course_categories_graded.id
+  $data['course_categories_graded']['table']['join']['user'] = array(
+    'table' => 'course_categories',
+    'left_table' => 'course_graded',
+    'left_field' => 'category',
     'field' => 'id'
   );
 
