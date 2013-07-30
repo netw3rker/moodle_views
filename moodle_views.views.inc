@@ -82,11 +82,11 @@ function moodle_views_views_data() {
       'label' => t('Course is visible'),
       'type' => 'yes-no'));
   $data['course']['coursedisplay'] = array(
-    'title' => t('Section display one section per page'),
+    'title' => t('Display one section per page'),
     'help' => t('The display setting of the course (Show all sections on one page / Show one section per page.'),
     'filter' => array(
       'handler' => 'views_handler_filter_boolean_operator',
-      'label' => t('Course display'),
+      'label' => t('Display one section per page'),
       'type' => 'yes-no'));
   $data['course']['startdate'] = array(
     'title' => t('Start date'),
