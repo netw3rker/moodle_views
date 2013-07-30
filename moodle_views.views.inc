@@ -79,7 +79,7 @@ function moodle_views_views_data() {
     'help' => t('Whether the course is visible in Moodle or not'),
     'filter' => array(
       'handler' => 'views_handler_filter_boolean_operator',
-      'label' => t('Course visible'),
+      'label' => t('Course is visible'),
       'type' => 'yes-no'));
   $data['course']['coursedisplay'] = array(
     'title' => t('Section display one section per page'),
