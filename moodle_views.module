@@ -19,6 +19,5 @@ function moodle_views_init() {
 function moodle_views_views_api() {
   return array(
     'api' => 3.0,
-    'path' => drupal_get_path('module', 'moodle_views')
-  );
+    'path' => drupal_get_path('module', 'moodle_views'));
 }

@@ -116,6 +116,34 @@ function moodle_views_views_data() {
     'filter' => array(
       'handler' => 'views_handler_filter_date'));
 
+  // ----- course_sections table -----
+  $data['course_sections']['table']['group'] = t('Moodle Sections');
+
+  $data['course_sections']['section'] = array(
+    'title' => t('Course section number'),
+    'help' => t('The number of the course section'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric'),
+    'sort' => array(
+      'handler' => 'views_handler_sort'));
+  $data['course_sections']['name'] = array(
+    'title' => t('Course Section'),
+    'help' => t('The name of the course section'),
+    'field' => array(
+      'handler' => 'views_handler_field'));
+
+  // ----- course_modules table -----
+  $data['course_modules']['table']['group'] = t('Moodle Course Module');
+
+  $data['course_modules']['idnumber'] = array(
+    'title' => t('ID number'),
+    'help' => t('The ID number of the course module'),
+    'field' => array(
+      'handler' => 'views_handler_field'));
+
+  // ----- modules table -----
+  $data['modules']['table']['group'] = t('Moodle Modules');
+
   // ----- graded course alias -----
   $data['course_graded'] = $data['course'];
   unset($data['course_graded']['table']['base']);
@@ -201,7 +229,7 @@ function moodle_views_views_data() {
       'handler' => 'views_handler_sort'));
   $data['user']['idnumber'] = array(
     'title' => t('ID number'),
-    'help' => t('The idnumber (for external authentication) of the user. Can be the matching account\'s UID in Drupal.'),
+    'help' => t("The idnumber of the user. Can be the matching account's UID in Drupal."),
     'field' => array(
       'handler' => 'views_handler_field',
       'click sortable' => TRUE),
@@ -259,11 +287,12 @@ function moodle_views_views_data() {
   // ----- enrol table -----
   $data['enrol']['table']['group'] = t('Moodle Enrolment');
 
+  // TODO: inverse boolean handler needed!
   $data['enrol']['status'] = array(
     'title' => t('Enrolment suspended'),
     'help' => t('Whether this enrolment has been suspended or not'),
     'field' => array(
-      'handler' => 'views_handler_field_boolean', // TODO inverse boolean needed!
+      'handler' => 'views_handler_field_boolean',
       'output formats' => array(
         'suspended' => array(
           'Suspended',
@@ -382,7 +411,6 @@ function moodle_views_views_data() {
 
   // ----- grade_letters table -----
   // @See http://docs.moodle.org/dev/Grades#grade_letters
-
   $data['grade_letters']['table']['group'] = t('Moodle Grades');
   $data['grade_letters']['letter'] = array(
     'title' => t('Letter'),
@@ -486,12 +514,16 @@ function moodle_views_views_data() {
     'field' => 'userid');
 
   // ============ Link users to grades ================
+  // LEFT JOIN {grade_grades} grade_grades
+  // ON user.id = grade_grades.userid AND (finalgrade IS NOT NULL)
   $data['grade_grades']['table']['join']['user'] = array(
     'left_field' => 'id',
     'field' => 'userid',
     'extra' => 'finalgrade IS NOT NULL');
 
   // ============ Link users to grade_items ================
+  // INNER JOIN {grade_items} grade_items
+  // ON grade_grades.itemid = grade_items.id AND (rawgrade IS NOT NULL)
   $data['grade_items']['table']['join']['user'] = array(
     'left_table' => 'grade_grades',
     'left_field' => 'itemid',
@@ -507,7 +539,8 @@ function moodle_views_views_data() {
     'field' => 'lowerboundary');
 
   // ============ Link users to graded courses ================
-  // LEFT JOIN {course} course_graded ON grade_items.courseid = course_graded.id
+  // LEFT JOIN {course} course_graded
+  // ON grade_items.courseid = course_graded.id
   $data['course_graded']['table']['join']['user'] = array(
     'table' => 'course',
     'left_table' => 'grade_items',
@@ -515,12 +548,31 @@ function moodle_views_views_data() {
     'field' => 'id');
 
   // ============ Link users to graded course categories ================
-  // LEFT JOIN {course_categories} course_categories_graded ON course_graded.category = course_categories_graded.id
+  // LEFT JOIN {course_categories} course_categories_graded
+  // ON course_graded.category = course_categories_graded.id
   $data['course_categories_graded']['table']['join']['user'] = array(
     'table' => 'course_categories',
     'left_table' => 'course_graded',
     'left_field' => 'category',
     'field' => 'id');
 
+  // ========== Link users to course_sections ==========
+  // TODO: may need custom join handler here...
+  $data['course_sections']['table']['join']['user'] = array(
+    'handler' => 'moodle_views_multi_join',
+    'left_table' => 'course_modules',
+    'left_fields' => array(
+      'course',
+      'section'),
+    'fields' => array(
+      'course',
+      'id'));
+
+  $data['course_modules']['table']['join']['user'] = array(
+    'left_table' => 'grade_items',
+    'left_field' => 'iteminstance',
+    'field' => 'instance',
+    'extra' => 'itemmodule = \'quiz\' AND course_modules.module = 16'); // TODO make custom
+                                                                        // handler?
   return $data;
 }

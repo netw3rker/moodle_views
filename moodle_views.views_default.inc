@@ -41,8 +41,7 @@ function moodle_views_views_default_views() {
     'lastname' => 'lastname',
     'city' => 'city',
     'country' => 'country',
-    'lastaccess' => 'lastaccess'
-  );
+    'lastaccess' => 'lastaccess');
   $handler->display->display_options['style_options']['default'] = '-1';
   $handler->display->display_options['style_options']['info'] = array(
     'id' => array(
@@ -50,56 +49,47 @@ function moodle_views_views_default_views() {
       'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
-      'empty_column' => 0
-    ),
+      'empty_column' => 0),
     'username' => array(
       'sortable' => 1,
       'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
-      'empty_column' => 0
-    ),
+      'empty_column' => 0),
     'email' => array(
       'sortable' => 1,
       'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
-      'empty_column' => 0
-    ),
+      'empty_column' => 0),
     'firstname' => array(
       'sortable' => 1,
       'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
-      'empty_column' => 0
-    ),
+      'empty_column' => 0),
     'lastname' => array(
       'sortable' => 1,
       'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
-      'empty_column' => 0
-    ),
+      'empty_column' => 0),
     'city' => array(
       'sortable' => 1,
       'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
-      'empty_column' => 0
-    ),
+      'empty_column' => 0),
     'country' => array(
       'sortable' => 1,
       'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
-      'empty_column' => 0
-    ),
+      'empty_column' => 0),
     'lastaccess' => array(
       'align' => '',
       'separator' => '',
-      'empty_column' => 0
-    )
-  );
+      'empty_column' => 0));
   /* Header: Global: Result summary */
   $handler->display->display_options['header']['result']['id'] = 'result';
   $handler->display->display_options['header']['result']['table'] = 'views';
@@ -179,8 +169,7 @@ function moodle_views_views_default_views() {
   $handler->display->display_options['style_options']['columns'] = array(
     'id' => 'id',
     'fullname' => 'fullname',
-    'name' => 'name'
-  );
+    'name' => 'name');
   $handler->display->display_options['style_options']['default'] = '-1';
   $handler->display->display_options['style_options']['info'] = array(
     'id' => array(
@@ -188,23 +177,19 @@ function moodle_views_views_default_views() {
       'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
-      'empty_column' => 0
-    ),
+      'empty_column' => 0),
     'fullname' => array(
       'sortable' => 1,
       'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
-      'empty_column' => 0
-    ),
+      'empty_column' => 0),
     'name' => array(
       'sortable' => 1,
       'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
-      'empty_column' => 0
-    )
-  );
+      'empty_column' => 0));
   /* Header: Global: Result summary */
   $handler->display->display_options['header']['result']['id'] = 'result';
   $handler->display->display_options['header']['result']['table'] = 'views';
@@ -260,8 +245,7 @@ function moodle_views_views_default_views() {
   $handler->display->display_options['style_options']['columns'] = array(
     'id' => 'id',
     'fullname' => 'fullname',
-    'timestart' => 'timestart'
-  );
+    'timestart' => 'timestart');
   $handler->display->display_options['style_options']['default'] = '-1';
   $handler->display->display_options['style_options']['info'] = array(
     'id' => array(
@@ -269,21 +253,17 @@ function moodle_views_views_default_views() {
       'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
-      'empty_column' => 0
-    ),
+      'empty_column' => 0),
     'fullname' => array(
       'sortable' => 0,
       'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
-      'empty_column' => 0
-    ),
+      'empty_column' => 0),
     'timestart' => array(
       'align' => '',
       'separator' => '',
-      'empty_column' => 0
-    )
-  );
+      'empty_column' => 0));
   /* No results behavior: Global: Text area */
   $handler->display->display_options['empty']['area']['id'] = 'area';
   $handler->display->display_options['empty']['area']['table'] = 'views';
@@ -317,8 +297,7 @@ function moodle_views_views_default_views() {
   $handler = $view->new_display('entity_view', 'EVA Field', 'entity_view_1');
   $handler->display->display_options['entity_type'] = 'user';
   $handler->display->display_options['bundles'] = array(
-    0 => 'user'
-  );
+    0 => 'user');
   $handler->display->display_options['argument_mode'] = 'token';
   $handler->display->display_options['default_argument'] = '[user:name]';
   $handler->display->display_options['show_title'] = 1;

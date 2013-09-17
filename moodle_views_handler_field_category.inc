@@ -27,8 +27,14 @@ class moodle_views_handler_field_category extends views_handler_field {
 
   function option_definition() {
     $options = parent::option_definition();
+    if (isset($this->definition['link_to_category default'])) {
+      $default = $this->definition['link_to_category default'];
+    }
+    else {
+      $default = FALSE;
+    }
     $options['link_to_category'] = array(
-      'default' => isset($this->definition['link_to_category default']) ? $this->definition['link_to_category default'] : FALSE,
+      'default' => $default,
       'bool' => TRUE
     );
     return $options;
@@ -56,8 +62,9 @@ class moodle_views_handler_field_category extends views_handler_field {
   function render_link($data, $values) {
     if (!empty($this->options['link_to_category']) && !empty($this->additional_fields['id'])) {
       if ($data !== NULL && $data !== '') {
+        $path = variable_get('moodle_connector_url') . "/course/category.php?id=" . $this->get_value($values, 'id');
         $this->options['alter']['make_link'] = TRUE;
-        $this->options['alter']['path'] = variable_get('moodle_connector_url') . "/course/category.php?id=" . $this->get_value($values, 'id');
+        $this->options['alter']['path'] = $path;
       }
       else {
         $this->options['alter']['make_link'] = FALSE;

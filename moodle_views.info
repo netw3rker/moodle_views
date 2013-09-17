@@ -9,6 +9,7 @@ files[] = moodle_views_handler_field_user.inc
 files[] = moodle_views_handler_field_money.inc
 files[] = moodle_views_handler_field_grade.inc
 files[] = moodle_views_range_join.inc
+files[] = moodle_views_multi_join.inc
 
 dependencies[] = moodle_connector
 dependencies[] = views
