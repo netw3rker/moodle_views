@@ -16,6 +16,9 @@
  */
 class moodle_views_handler_field_grade extends views_handler_field_numeric {
 
+  /**
+   * Overrides init().
+   */
   public function init(&$view, &$options) {
     parent::init($view, $options);
     if ($this->options['display_format'] != 'raw') {
@@ -33,6 +36,9 @@ class moodle_views_handler_field_grade extends views_handler_field_numeric {
     }
   }
 
+  /**
+   * Defines the "display format" option.
+   */
   public function option_definition() {
     $options = parent::option_definition();
     $options['display_format'] = array(
@@ -41,7 +47,7 @@ class moodle_views_handler_field_grade extends views_handler_field_numeric {
   }
 
   /**
-   * Provide display options
+   * Provides the "display format" form widget.
    */
   public function options_form(&$form, &$form_state) {
     $form['display_format'] = array(
@@ -57,7 +63,7 @@ class moodle_views_handler_field_grade extends views_handler_field_numeric {
   }
 
   /**
-   * Render the field.
+   * Renders the field.
    */
   public function render($values) {
     $value = $this->get_value($values);

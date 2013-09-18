@@ -22,7 +22,6 @@ class moodle_views_handler_field_category extends views_handler_field {
    */
   public function init(&$view, &$options) {
     parent::init($view, $options);
-    // Don't add the additional fields to groupby
     if (!empty($this->options['link_to_category'])) {
       $this->additional_fields['id'] = array(
         'table' => 'course',

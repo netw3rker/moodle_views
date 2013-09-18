@@ -16,6 +16,9 @@
  */
 class moodle_views_handler_field_user extends views_handler_field {
 
+  /**
+   * Overrides init().
+   */
   public function init(&$view, &$options) {
     parent::init($view, $options);
     // Don't add the additional fields to groupby
@@ -26,6 +29,9 @@ class moodle_views_handler_field_user extends views_handler_field {
     }
   }
 
+  /**
+   * Defines the "link to user" option.
+   */
   public function option_definition() {
     $options = parent::option_definition();
     $options['link_to_user'] = array(
@@ -35,7 +41,7 @@ class moodle_views_handler_field_user extends views_handler_field {
   }
 
   /**
-   * Provide link to user option
+   * Provides "link to user" form widget.
    */
   public function options_form(&$form, &$form_state) {
     $form['link_to_user'] = array(
@@ -48,7 +54,7 @@ class moodle_views_handler_field_user extends views_handler_field {
   }
 
   /**
-   * Render whatever the data is as a link to the user.
+   * Renders whatever the data is as a link to the user.
    *
    * Data should be made XSS safe prior to calling this function.
    */
@@ -66,7 +72,7 @@ class moodle_views_handler_field_user extends views_handler_field {
   }
 
   /**
-   * Render the field.
+   * Renders the field.
    */
   public function render($values) {
     $value = $this->get_value($values);
