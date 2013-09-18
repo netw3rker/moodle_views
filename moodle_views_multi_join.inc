@@ -11,9 +11,9 @@
  */
 class moodle_views_multi_join extends views_join {
 
-  var $left_fields = array();
+  private $left_fields = array();
 
-  var $fields = array();
+  private $fields = array();
 
   /**
    * Overrides construct().
@@ -30,13 +30,6 @@ class moodle_views_multi_join extends views_join {
    * Build the SQL for the join this object represents.
    *
    * When possible, try to use table alias instead of table names.
-   *
-   * @param $select_query An
-   *          implementation of SelectQueryInterface.
-   * @param $table The
-   *          base table to join.
-   * @param $view_query The
-   *          source query, implementation of views_plugin_query.
    */
   public function build_join($select_query, $table, $view_query) {
     if (empty($this->definition['table formula'])) {
@@ -87,7 +80,7 @@ class moodle_views_multi_join extends views_join {
           }
 
           // Convert a single-valued array of values to the single-value case,
-          // and transform from IN() notation to = notation
+          // and transform from IN() notation to = notation.
           if (is_array($info['value']) && count($info['value']) == 1) {
             if (empty($info['operator'])) {
               $operator = '=';
