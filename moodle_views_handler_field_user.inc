@@ -57,7 +57,7 @@ class moodle_views_handler_field_user extends views_handler_field {
    *
    * Data should be made XSS safe prior to calling this function.
    */
-  private function render_link($data, $values) {
+  protected function render_link($data, $values) {
     if (!empty($this->options['link_to_user']) && !empty($this->additional_fields['id'])) {
       if ($data !== NULL && $data !== '') {
         $this->options['alter']['make_link'] = TRUE;
