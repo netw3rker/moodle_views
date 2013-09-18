@@ -3,13 +3,13 @@ description = Expose Moodle data to Drupal Views
 package = Other
 core = 7.x
 
-files[] = moodle_views_handler_field_course.inc
-files[] = moodle_views_handler_field_category.inc
-files[] = moodle_views_handler_field_user.inc
-files[] = moodle_views_handler_field_money.inc
-files[] = moodle_views_handler_field_grade.inc
-files[] = moodle_views_range_join.inc
-files[] = moodle_views_multi_join.inc
+files[] = handlers/moodle_views_handler_field_course.inc
+files[] = handlers/moodle_views_handler_field_category.inc
+files[] = handlers/moodle_views_handler_field_user.inc
+files[] = handlers/moodle_views_handler_field_money.inc
+files[] = handlers/moodle_views_handler_field_grade.inc
+files[] = joiners/moodle_views_range_join.inc
+files[] = joiners/moodle_views_multi_join.inc
 
 dependencies[] = moodle_connector
 dependencies[] = views
