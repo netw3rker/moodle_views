@@ -7,8 +7,7 @@
  */
 
 /**
- * Field handler to provide simple renderer that allows linking to a course
- * category.
+ * Field handler that allows linking to a course category.
  *
  * Definition terms:
  * - link_to_category default: Should this field have the checkbox "Link to
@@ -18,6 +17,9 @@
  */
 class moodle_views_handler_field_category extends views_handler_field {
 
+  /**
+   * Object initialisation.
+   */
   public function init(&$view, &$options) {
     parent::init($view, $options);
     // Don't add the additional fields to groupby
@@ -28,6 +30,9 @@ class moodle_views_handler_field_category extends views_handler_field {
     }
   }
 
+  /**
+   * Define the "link to category" option.
+   */
   public function option_definition() {
     $options = parent::option_definition();
     if (isset($this->definition['link_to_category default'])) {
@@ -43,7 +48,7 @@ class moodle_views_handler_field_category extends views_handler_field {
   }
 
   /**
-   * Provide link to category option form element.
+   * Provide the form element for the "link to category" option.
    */
   public function options_form(&$form, &$form_state) {
     $form['link_to_category'] = array(
@@ -75,6 +80,9 @@ class moodle_views_handler_field_category extends views_handler_field {
     return $data;
   }
 
+  /**
+   * Render the field.
+   */
   public function render($values) {
     $value = $this->get_value($values);
     return $this->render_link($this->sanitize_value($value), $values);

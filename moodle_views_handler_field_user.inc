@@ -7,9 +7,10 @@
  */
 
 /**
- * Field handler to provide simple renderer that allows linking to a user.
+ * Field handler that allows linking to a Moodle user.
  * Definition terms:
- * - link_to_user default: Should this field have the checkbox "Link to the Moodle user page" enabled by default.
+ * - link_to_user default: Should this field have the checkbox "Link to
+ *   the Moodle user page" enabled by default.
  *
  * @ingroup views_field_handlers
  */
@@ -64,6 +65,9 @@ class moodle_views_handler_field_user extends views_handler_field {
     return $data;
   }
 
+  /**
+   * Render the field.
+   */
   public function render($values) {
     $value = $this->get_value($values);
     return $this->render_link($this->sanitize_value($value), $values);

@@ -7,14 +7,19 @@
  */
 
 /**
- * Field handler to provide simple renderer that allows linking to a course.
+ * Field handler that allows linking to a Moodle course.
+ *
  * Definition terms:
- * - link_to_course default: Should this field have the checkbox "Link to the Moodle course page" enabled by default.
+ * - link_to_course default: Should this field have the checkbox "Link to
+ *   the Moodle course page" enabled by default.
  *
  * @ingroup views_field_handlers
  */
 class moodle_views_handler_field_course extends views_handler_field {
 
+  /**
+   * Overrides init().
+   */
   public function init(&$view, &$options) {
     parent::init($view, $options);
     // Don't add the additional fields to groupby
@@ -25,6 +30,9 @@ class moodle_views_handler_field_course extends views_handler_field {
     }
   }
 
+  /**
+   * Defines the "link to course" display option.
+   */
   public function option_definition() {
     $options = parent::option_definition();
     $options['link_to_course'] = array(
@@ -34,7 +42,7 @@ class moodle_views_handler_field_course extends views_handler_field {
   }
 
   /**
-   * Provide link to course option
+   * Provides form element for "link to course" display option.
    */
   public function options_form(&$form, &$form_state) {
     $form['link_to_course'] = array(
@@ -47,7 +55,7 @@ class moodle_views_handler_field_course extends views_handler_field {
   }
 
   /**
-   * Render whatever the data is as a link to the course.
+   * Renders whatever the data is as a link to the course.
    *
    * Data should be made XSS safe prior to calling this function.
    */
@@ -64,6 +72,9 @@ class moodle_views_handler_field_course extends views_handler_field {
     return $data;
   }
 
+  /**
+   * Renders the field.
+   */
   public function render($values) {
     $value = $this->get_value($values);
     return $this->render_link($this->sanitize_value($value), $values);
