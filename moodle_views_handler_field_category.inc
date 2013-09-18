@@ -1,31 +1,34 @@
 <?php
 
+
 /**
  * @file
  * Definition of a field handler for Moodle course categories.
  */
 
 /**
- * Field handler to provide simple renderer that allows linking to a course category.
+ * Field handler to provide simple renderer that allows linking to a course
+ * category.
+ *
  * Definition terms:
- * - link_to_category default: Should this field have the checkbox "Link to the Moodle category page" enabled by default.
+ * - link_to_category default: Should this field have the checkbox "Link to
+ * the Moodle category page" enabled by default.
  *
  * @ingroup views_field_handlers
  */
 class moodle_views_handler_field_category extends views_handler_field {
 
-  function init(&$view, &$options) {
+  public function init(&$view, &$options) {
     parent::init($view, $options);
     // Don't add the additional fields to groupby
     if (!empty($this->options['link_to_category'])) {
       $this->additional_fields['id'] = array(
         'table' => 'course',
-        'field' => 'category'
-      );
+        'field' => 'category');
     }
   }
 
-  function option_definition() {
+  public function option_definition() {
     $options = parent::option_definition();
     if (isset($this->definition['link_to_category default'])) {
       $default = $this->definition['link_to_category default'];
@@ -35,21 +38,19 @@ class moodle_views_handler_field_category extends views_handler_field {
     }
     $options['link_to_category'] = array(
       'default' => $default,
-      'bool' => TRUE
-    );
+      'bool' => TRUE);
     return $options;
   }
 
   /**
-   * Provide link to category option
+   * Provide link to category option form element.
    */
-  function options_form(&$form, &$form_state) {
+  public function options_form(&$form, &$form_state) {
     $form['link_to_category'] = array(
       '#title' => t('Link to the Moodle category page'),
       '#description' => t("Enable to override this field's links."),
       '#type' => 'checkbox',
-      '#default_value' => !empty($this->options['link_to_category'])
-    );
+      '#default_value' => !empty($this->options['link_to_category']));
 
     parent::options_form($form, $form_state);
   }
@@ -59,10 +60,11 @@ class moodle_views_handler_field_category extends views_handler_field {
    *
    * Data should be made XSS safe prior to calling this function.
    */
-  function render_link($data, $values) {
+  public function render_link($data, $values) {
     if (!empty($this->options['link_to_category']) && !empty($this->additional_fields['id'])) {
       if ($data !== NULL && $data !== '') {
-        $path = variable_get('moodle_connector_url') . "/course/category.php?id=" . $this->get_value($values, 'id');
+        $path = variable_get('moodle_connector_url');
+        $path .= "/course/category.php?id=" . $this->get_value($values, 'id');
         $this->options['alter']['make_link'] = TRUE;
         $this->options['alter']['path'] = $path;
       }
@@ -73,7 +75,7 @@ class moodle_views_handler_field_category extends views_handler_field {
     return $data;
   }
 
-  function render($values) {
+  public function render($values) {
     $value = $this->get_value($values);
     return $this->render_link($this->sanitize_value($value), $values);
   }

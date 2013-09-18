@@ -568,11 +568,11 @@ function moodle_views_views_data() {
       'course',
       'id'));
 
+  // TODO make custom handler?
   $data['course_modules']['table']['join']['user'] = array(
     'left_table' => 'grade_items',
     'left_field' => 'iteminstance',
     'field' => 'instance',
-    'extra' => 'itemmodule = \'quiz\' AND course_modules.module = 16'); // TODO make custom
-                                                                        // handler?
+    'extra' => 'itemmodule = \'quiz\' AND course_modules.module = 16');
   return $data;
 }

@@ -1,9 +1,10 @@
 <?php
+
+
 /**
  * @file
  * Definition of SQL join class to execute a join using multiple fields.
  */
-
 
 /**
  * Like views_join but takes array of fields.
@@ -14,7 +15,7 @@ class moodle_views_multi_join extends views_join {
 
   var $fields = array();
 
-  function construct($table = NULL, $left_table = NULL, $left_field = NULL, $field = NULL, $extra = array(), $type = 'LEFT') {
+  public function construct($table = NULL, $left_table = NULL, $left_field = NULL, $field = NULL, $extra = array(), $type = 'LEFT') {
     $this->definition['left_field'] = array_shift($this->definition['left_fields']);
     $this->definition['field'] = array_shift($this->definition['fields']);
     parent::construct($table, $left_table, $left_field, $field, $extra, $type);
@@ -22,7 +23,7 @@ class moodle_views_multi_join extends views_join {
     $this->fields = $this->definition['fields'];
   }
 
-  function build_join($select_query, $table, $view_query) {
+  public function build_join($select_query, $table, $view_query) {
     if (empty($this->definition['table formula'])) {
       $right_table = $this->table;
     }

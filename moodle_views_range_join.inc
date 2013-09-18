@@ -1,32 +1,15 @@
 <?php
 
+
 /**
  * @file
- * Definition of SQL join class to execute a range join to find the row with the largest value smaller than the given value.
+ * Definition of SQL join class to execute a range join to find the row with
+ * the largest value smaller than the given value.
  */
 
 /**
  * A function class to represent a join and create the SQL necessary
  * to implement the join.
- *
- * join definition
- * - table: table to join (right table)
- * - field: field to join on (right field)
- * - left_table: The table we join to
- * - left_field: The field we join to
- * - type: either LEFT (default) or INNER
- * - extra: An array of extra conditions on the join. Each condition is
- * either a string that's directly added, or an array of items:
- * - - table: If not set, current table; if NULL, no table. If you specify a
- * table in cached definition, Views will try to load from an existing
- * alias. If you use realtime joins, it works better.
- * - - field: Field or formula
- * in formulas we can reference the right table by using %alias
- *
- * @see SelectQueryInterface::addJoin() - - operator: defaults to =
- *      - - value: Must be set. If an array, operator will be defaulted to IN.
- *      - - numeric: If true, the value will not be surrounded in quotes.
- *      - - extra type: How all the extras will be combined. Either AND or OR. Defaults to AND.
  */
 class moodle_views_range_join extends views_join {
 
@@ -42,7 +25,7 @@ class moodle_views_range_join extends views_join {
    * @param $view_query The
    *          source query, implementation of views_plugin_query.
    */
-  function build_join($select_query, $table, $view_query) {
+  public function build_join($select_query, $table, $view_query) {
     if (empty($this->definition['table formula'])) {
       $right_table = $this->table;
     }
