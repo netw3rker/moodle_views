@@ -13,7 +13,7 @@
  */
 class moodle_views_handler_field_money extends views_handler_field_numeric {
 
-  function init(&$view, &$options) {
+  public function init(&$view, &$options) {
     parent::init($view, $options);
     $this->additional_fields['currency'] = array(
       'table' => 'price',
@@ -26,7 +26,7 @@ class moodle_views_handler_field_money extends views_handler_field_numeric {
    * @param $values The
    *          values retrieved from the database.
    */
-  function render($values) {
+  public function render($values) {
     $value = $this->get_value($values);
     $currency = $this->get_value($values, 'currency');
     $currency_symbols = array(

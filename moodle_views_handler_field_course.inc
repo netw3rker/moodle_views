@@ -1,5 +1,6 @@
 <?php
 
+
 /**
  * @file
  * Definition of a field handler for Moodle courses.
@@ -14,36 +15,33 @@
  */
 class moodle_views_handler_field_course extends views_handler_field {
 
-  function init(&$view, &$options) {
+  public function init(&$view, &$options) {
     parent::init($view, $options);
     // Don't add the additional fields to groupby
     if (!empty($this->options['link_to_course'])) {
       $this->additional_fields['id'] = array(
         'table' => 'course',
-        'field' => 'id'
-      );
+        'field' => 'id');
     }
   }
 
-  function option_definition() {
+  public function option_definition() {
     $options = parent::option_definition();
     $options['link_to_course'] = array(
       'default' => isset($this->definition['link_to_course default']) ? $this->definition['link_to_course default'] : FALSE,
-      'bool' => TRUE
-    );
+      'bool' => TRUE);
     return $options;
   }
 
   /**
    * Provide link to course option
    */
-  function options_form(&$form, &$form_state) {
+  public function options_form(&$form, &$form_state) {
     $form['link_to_course'] = array(
       '#title' => t('Link to the Moodle course page'),
       '#description' => t("Enable to override this field's links."),
       '#type' => 'checkbox',
-      '#default_value' => !empty($this->options['link_to_course'])
-    );
+      '#default_value' => !empty($this->options['link_to_course']));
 
     parent::options_form($form, $form_state);
   }
@@ -53,7 +51,7 @@ class moodle_views_handler_field_course extends views_handler_field {
    *
    * Data should be made XSS safe prior to calling this function.
    */
-  function render_link($data, $values) {
+  private function render_link($data, $values) {
     if (!empty($this->options['link_to_course']) && !empty($this->additional_fields['id'])) {
       if ($data !== NULL && $data !== '') {
         $this->options['alter']['make_link'] = TRUE;
@@ -66,7 +64,7 @@ class moodle_views_handler_field_course extends views_handler_field {
     return $data;
   }
 
-  function render($values) {
+  public function render($values) {
     $value = $this->get_value($values);
     return $this->render_link($this->sanitize_value($value), $values);
   }

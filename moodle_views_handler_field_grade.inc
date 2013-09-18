@@ -1,5 +1,6 @@
 <?php
 
+
 /**
  * @file
  * Definition of a field handler for Moodle grades.
@@ -14,48 +15,42 @@
  */
 class moodle_views_handler_field_grade extends views_handler_field_numeric {
 
-  function init(&$view, &$options) {
+  public function init(&$view, &$options) {
     parent::init($view, $options);
     if ($this->options['display_format'] != 'raw') {
       $this->additional_fields['grademin'] = array(
         'table' => 'grade_items',
-        'field' => 'grademin'
-      );
+        'field' => 'grademin');
       $this->additional_fields['grademax'] = array(
         'table' => 'grade_items',
-        'field' => 'grademax'
-      );
+        'field' => 'grademax');
     }
     if ($this->options['display_format'] == 'letter') {
       $this->additional_fields['letter'] = array(
         'table' => 'grade_letters',
-        'field' => 'letter'
-      );
+        'field' => 'letter');
     }
   }
 
-  function option_definition() {
+  public function option_definition() {
     $options = parent::option_definition();
     $options['display_format'] = array(
-      'default' => isset($this->definition['display_format default']) ? $this->definition['display_format default'] : 'raw'
-    );
+      'default' => isset($this->definition['display_format default']) ? $this->definition['display_format default'] : 'raw');
     return $options;
   }
 
   /**
    * Provide display options
    */
-  function options_form(&$form, &$form_state) {
+  public function options_form(&$form, &$form_state) {
     $form['display_format'] = array(
       '#title' => t('Grade display format'),
       '#description' => t("How to display the grade."),
       '#type' => 'radios',
       '#options' => array(
         'raw' => t('Raw number'),
-        'percent' => t('Percentage')
-      ),
-      '#default_value' => $this->options['display_format']
-    );
+        'percent' => t('Percentage')),
+      '#default_value' => $this->options['display_format']);
 
     parent::options_form($form, $form_state);
   }
@@ -66,7 +61,7 @@ class moodle_views_handler_field_grade extends views_handler_field_numeric {
    * @param $values The
    *          values retrieved from the database.
    */
-  function render($values) {
+  public function render($values) {
     $value = $this->get_value($values);
     $min = $this->get_value($values, 'grademin');
     $max = $this->get_value($values, 'grademax');
