@@ -25,6 +25,9 @@ class moodle_views_handler_field_course extends views_handler_field {
     }
   }
 
+  /**
+   * Define the "link to course" display option.
+   */
   public function option_definition() {
     $options = parent::option_definition();
     $options['link_to_course'] = array(
@@ -34,7 +37,7 @@ class moodle_views_handler_field_course extends views_handler_field {
   }
 
   /**
-   * Provide link to course option
+   * Provide form element for "link to course" display option.
    */
   public function options_form(&$form, &$form_state) {
     $form['link_to_course'] = array(
@@ -64,6 +67,9 @@ class moodle_views_handler_field_course extends views_handler_field {
     return $data;
   }
 
+  /**
+   * Render the field.
+   */
   public function render($values) {
     $value = $this->get_value($values);
     return $this->render_link($this->sanitize_value($value), $values);

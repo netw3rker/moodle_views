@@ -38,7 +38,8 @@ class moodle_views_range_join extends views_join {
       $left_field = "$left[alias].$this->left_field";
     }
     else {
-      // This can be used if left_field is a formula or something. It should be used only *very* rarely.
+      // This can be used if left_field is a formula or something.
+      // It should be used only *very* rarely.
       $left_field = $this->left_field;
     }
 

@@ -75,6 +75,9 @@ class moodle_views_handler_field_category extends views_handler_field {
     return $data;
   }
 
+  /**
+   * Render the field.
+   */
   public function render($values) {
     $value = $this->get_value($values);
     return $this->render_link($this->sanitize_value($value), $values);
