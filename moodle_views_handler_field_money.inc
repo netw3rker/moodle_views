@@ -1,8 +1,15 @@
 <?php
 
+
 /**
  * @file
  * Handler definition for course prices.
+ */
+
+/**
+ * Field handler to display money fields from Moodle database.
+ *
+ * @ingroup views_field_handlers
  */
 class moodle_views_handler_field_money extends views_handler_field_numeric {
 
@@ -10,8 +17,7 @@ class moodle_views_handler_field_money extends views_handler_field_numeric {
     parent::init($view, $options);
     $this->additional_fields['currency'] = array(
       'table' => 'price',
-      'field' => 'currency'
-    );
+      'field' => 'currency');
   }
 
   /**
@@ -29,8 +35,7 @@ class moodle_views_handler_field_money extends views_handler_field_numeric {
       'USD' => '$',
       'JPY' => '¥',
       'CAD' => 'C$',
-      'AUD' => 'A$'
-    );
+      'AUD' => 'A$');
     if (array_key_exists($currency, $currency_symbols)) {
       $currency = $currency_symbols[$currency];
     }
