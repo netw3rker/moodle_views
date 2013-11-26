@@ -65,7 +65,7 @@ function moodle_views_views_data() {
       'handler' => 'views_handler_sort'));
   $data['course']['summary'] = array(
     'title' => t('Summary'),
-    'help' => t('The summary description of the course.'),
+    'help' => t('The summary text of the course.'),
     'field' => array(
       'handler' => 'views_handler_field_markup',
       'format' => 'full_html'));
@@ -117,20 +117,26 @@ function moodle_views_views_data() {
       'handler' => 'views_handler_filter_date'));
 
   // ----- course_sections table -----
-  $data['course_sections']['table']['group'] = t('Moodle Sections');
+  $data['course_sections']['table']['group'] = t('Moodle Section');
 
   $data['course_sections']['section'] = array(
-    'title' => t('Course section number'),
+    'title' => t('Number'),
     'help' => t('The number of the course section'),
     'field' => array(
       'handler' => 'views_handler_field_numeric'),
     'sort' => array(
       'handler' => 'views_handler_sort'));
   $data['course_sections']['name'] = array(
-    'title' => t('Course Section'),
+    'title' => t('Name'),
     'help' => t('The name of the course section'),
     'field' => array(
       'handler' => 'views_handler_field'));
+  $data['course_sections']['summary'] = array(
+    'title' => t('Summary'),
+    'help' => t('The summary text of the course section'),
+    'field' => array(
+      'handler' => 'views_handler_field_markup',
+      'format' => 'full_html'));
 
   // ----- course_modules table -----
   $data['course_modules']['table']['group'] = t('Moodle Course Module');
@@ -555,6 +561,11 @@ function moodle_views_views_data() {
     'left_table' => 'course_graded',
     'left_field' => 'category',
     'field' => 'id');
+
+  // ========== Link courses to course sections ==========
+  $data['course_sections']['table']['join']['course'] = array(
+    'left_field' => 'id',
+    'field' => 'course');
 
   // ========== Link users to course_sections ==========
   // TODO: may need custom join handler here...

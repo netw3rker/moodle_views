@@ -11,18 +11,34 @@
 function moodle_views_views_default_views() {
   $views = array();
 
+  $view = _moodle_views_default_users();
+  $views[$view->name] = $view;
+
+  $view = _moodle_views_default_courses();
+  $views[$view->name] = $view;
+
+  $view = _moodle_views_default_my_courses();
+  $views[$view->name] = $view;
+
+  $view = _moodle_views_default_courses_with_sections();
+  $views[$view->name] = $view;
+
+  return $views;
+}
+
+function _moodle_views_default_users() {
   $view = new view();
   $view->name = 'moodle_views_moodle_users';
   $view->description = 'Administrator list of Moodle users';
-  $view->tag = 'default';
+  $view->tag = 'moodle_views';
   $view->base_table = 'user';
   $view->human_name = 'Moodle users';
   $view->core = 7;
   $view->api_version = '3.0';
-  $view->disabled = FALSE;
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
 
-  /* Display: Master */
-  $handler = $view->new_display('default', 'Master', 'default');
+/* Display: Master */
+    $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Moodle users';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
@@ -90,11 +106,17 @@ function moodle_views_views_default_views() {
       'align' => '',
       'separator' => '',
       'empty_column' => 0));
+  /* Header: Global: Text area */
+  $handler->display->display_options['header']['area']['id'] = 'area';
+  $handler->display->display_options['header']['area']['table'] = 'views';
+  $handler->display->display_options['header']['area']['field'] = 'area';
+  $handler->display->display_options['header']['area']['content'] = '<p>This page lists all Moodle Users, as defined by the Moodle database. The IDnumber field is typically used to store the corresponding Drupal user UID.</p>';
+  $handler->display->display_options['header']['area']['format'] = 'filtered_html';
   /* Header: Global: Result summary */
   $handler->display->display_options['header']['result']['id'] = 'result';
   $handler->display->display_options['header']['result']['table'] = 'views';
   $handler->display->display_options['header']['result']['field'] = 'result';
-  /* Field: Moodle User: User ID */
+  /* Field: Moodle User: ID */
   $handler->display->display_options['fields']['id']['id'] = 'id';
   $handler->display->display_options['fields']['id']['table'] = 'user';
   $handler->display->display_options['fields']['id']['field'] = 'id';
@@ -128,7 +150,12 @@ function moodle_views_views_default_views() {
   $handler->display->display_options['fields']['lastaccess']['table'] = 'user';
   $handler->display->display_options['fields']['lastaccess']['field'] = 'lastaccess';
   $handler->display->display_options['fields']['lastaccess']['date_format'] = 'short';
-  /* Sort criterion: Moodle User: User ID */
+  /* Field: Moodle User: ID number */
+  $handler->display->display_options['fields']['idnumber_1']['id'] = 'idnumber_1';
+  $handler->display->display_options['fields']['idnumber_1']['table'] = 'user';
+  $handler->display->display_options['fields']['idnumber_1']['field'] = 'idnumber';
+  $handler->display->display_options['fields']['idnumber_1']['label'] = 'IDnumber';
+  /* Sort criterion: Moodle User: ID */
   $handler->display->display_options['sorts']['id']['id'] = 'id';
   $handler->display->display_options['sorts']['id']['table'] = 'user';
   $handler->display->display_options['sorts']['id']['field'] = 'id';
@@ -142,8 +169,10 @@ function moodle_views_views_default_views() {
   $handler->display->display_options['menu']['name'] = 'management';
   $handler->display->display_options['menu']['context'] = 0;
 
-  $views[$view->name] = $view;
+  return $view;
+}
 
+function _moodle_views_default_courses() {
   $view = new view();
   $view->name = 'moodle_views_moodle_courses';
   $view->description = 'Administrator list of Moodle courses';
@@ -220,17 +249,19 @@ function moodle_views_views_default_views() {
   $handler->display->display_options['menu']['title'] = 'Moodle courses';
   $handler->display->display_options['menu']['name'] = 'management';
 
-  $views[$view->name] = $view;
+  return $view;
+}
 
+function _moodle_views_default_my_courses() {
   $view = new view();
   $view->name = 'my_courses';
   $view->description = 'List the courses a user is enrolled on on their account page. Requires EVA module to work.';
-  $view->tag = 'default';
+  $view->tag = 'moodle_views';
   $view->base_table = 'course';
   $view->human_name = 'My Courses';
   $view->core = 7;
   $view->api_version = '3.0';
-  $view->disabled = FALSE;
+  $view->disabled = TRUE;
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
@@ -302,7 +333,104 @@ function moodle_views_views_default_views() {
   $handler->display->display_options['default_argument'] = '[user:name]';
   $handler->display->display_options['show_title'] = 1;
 
-  $views[$view->name] = $view;
+  return $view;
 
-  return $views;
+}
+
+function _moodle_views_default_courses_with_sections() {
+  $view = new view();
+  $view->name = 'moodle_course_sections';
+  $view->description = 'List of Courses with the course Sections listed in a table for each course.';
+  $view->tag = 'moodle_views';
+  $view->base_table = 'course';
+  $view->human_name = 'Moodle Course Sections';
+  $view->core = 7;
+  $view->api_version = '3.0';
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
+/* Display: Master */
+  $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['title'] = 'Moodle Course Sections';
+  $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['access']['type'] = 'perm';
+  $handler->display->display_options['cache']['type'] = 'none';
+  $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['style_plugin'] = 'table';
+  $handler->display->display_options['style_options']['grouping'] = array(
+    0 => array(
+      'field' => 'shortname',
+      'rendered' => 1,
+      'rendered_strip' => 0));
+  $handler->display->display_options['style_options']['columns'] = array(
+    'shortname' => 'shortname',
+    'section' => 'section',
+    'name' => 'name',
+    'summary' => 'summary');
+  $handler->display->display_options['style_options']['default'] = '-1';
+  $handler->display->display_options['style_options']['info'] = array(
+    'shortname' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0),
+    'section' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0),
+    'name' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0),
+    'summary' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0));
+  /* Field: Moodle Course: Short Name */
+  $handler->display->display_options['fields']['shortname']['id'] = 'shortname';
+  $handler->display->display_options['fields']['shortname']['table'] = 'course';
+  $handler->display->display_options['fields']['shortname']['field'] = 'shortname';
+  $handler->display->display_options['fields']['shortname']['label'] = '';
+  $handler->display->display_options['fields']['shortname']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['shortname']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['shortname']['alter']['text'] = '<h2>[shortname]</h2>';
+  $handler->display->display_options['fields']['shortname']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['shortname']['link_to_course'] = TRUE;
+  /* Field: Moodle Section: Number */
+  $handler->display->display_options['fields']['section']['id'] = 'section';
+  $handler->display->display_options['fields']['section']['table'] = 'course_sections';
+  $handler->display->display_options['fields']['section']['field'] = 'section';
+  $handler->display->display_options['fields']['section']['label'] = 'Course section number';
+  /* Field: Moodle Section: Name */
+  $handler->display->display_options['fields']['name']['id'] = 'name';
+  $handler->display->display_options['fields']['name']['table'] = 'course_sections';
+  $handler->display->display_options['fields']['name']['field'] = 'name';
+  $handler->display->display_options['fields']['name']['label'] = 'Course section name';
+  /* Field: Moodle Section: Summary */
+  $handler->display->display_options['fields']['summary']['id'] = 'summary';
+  $handler->display->display_options['fields']['summary']['table'] = 'course_sections';
+  $handler->display->display_options['fields']['summary']['field'] = 'summary';
+  /* Sort criterion: Moodle Course: Sort order */
+  $handler->display->display_options['sorts']['sortorder']['id'] = 'sortorder';
+  $handler->display->display_options['sorts']['sortorder']['table'] = 'course';
+  $handler->display->display_options['sorts']['sortorder']['field'] = 'sortorder';
+  /* Sort criterion: Moodle Section: Number */
+  $handler->display->display_options['sorts']['section']['id'] = 'section';
+  $handler->display->display_options['sorts']['section']['table'] = 'course_sections';
+  $handler->display->display_options['sorts']['section']['field'] = 'section';
+  /* Filter criterion: Moodle Course: Category */
+  $handler->display->display_options['filters']['name']['id'] = 'name';
+  $handler->display->display_options['filters']['name']['table'] = 'course_categories';
+  $handler->display->display_options['filters']['name']['field'] = 'name';
+  $handler->display->display_options['filters']['name']['operator'] = 'contains';
+  $handler->display->display_options['filters']['name']['value'] = 'Live';
+
+  /* Display: Page */
+  $handler = $view->new_display('page', 'Page', 'page');
+  $handler->display->display_options['path'] = 'moodle/course-sections';
+
+  return $view;
 }
