@@ -604,7 +604,11 @@ function moodle_views_views_data() {
       'label' => 'Badge ID',
       'handler' => 'views_handler_filter_numeric'),
     'sort' => array(
-      'handler' => 'views_handler_sort'));
+      'handler' => 'views_handler_sort'),
+    'argument' => array(
+      'label' => 'Badge ID',
+      'handler' => 'views_handler_argument_numeric'),
+  );
   $data['badge']['name'] = array(
     'title' => t('Name'),
     'help' => t('The full name of the badge.'),
@@ -822,10 +826,33 @@ function moodle_views_views_data() {
       'handler' => 'views_handler_sort'));
 
   $data['badge_issued']['table']['group'] = t('Moodle Badges Issued');
-  // this many to many table can be reached by badges, or by mdl_users objects
-  $data['badge_issued']['table']['join']['badge'] = array(
-    'left_field' => 'id',
-    'field' => 'badgeid');
+  $data['badge_issued']['table']['base'] = array(
+    'field' => 'badgeid',
+    'title' => t('Moodle badges issued'),
+    'help' => t('moodle badges issued to individual users.'),
+    'database' => 'moodle');
+
+  $data['badge']['issued_badgeid'] = array(
+    'real field'=>'id',
+    'title'=>'issued badges',
+    'help' => 'individual issued badges',
+    'relationship' => array(
+      'handler' => 'views_handler_relationship_badges_issued',
+      'label' => 'Issued by badge',
+      'database' => 'moodle',
+      'base' => 'badge_issued',
+      'base_field' => 'badgeid')
+  );
+  $data['badge_issued']['badgeid'] = array(
+    'real field'=>'cbptest',
+    'title'=>'to badge',
+    'help' => 'Badge issued to this badge',
+    'relationship' => array(
+      'label' => 'Badges',
+      'database' => 'moodle',
+      'base' => 'badge',
+      'base_field' => 'id')
+  );
   $data['badge_issued']['userid'] = array(
     'title'=>'to user',
     'help' => 'Badge issued to this user',
