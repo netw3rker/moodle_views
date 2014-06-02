@@ -3,7 +3,10 @@ description = Expose Moodle data to Drupal Views
 package = Other
 core = 7.x
 
-files[] = handlers/moodle_views_handler_relationship_badges_issued.inc
+files[] = handlers/views_handler_relationship_product_join.inc
+files[] = handlers/views_handler_relationship_composite_key.inc
+files[] = handlers/moodle_views_handler_argument_badgeid.inc
+files[] = handlers/moodle_views_handler_argument_userid.inc
 files[] = handlers/moodle_views_handler_field_course.inc
 files[] = handlers/moodle_views_handler_field_category.inc
 files[] = handlers/moodle_views_handler_field_user.inc

@@ -212,7 +212,7 @@ function moodle_views_views_data() {
       'handler' => 'views_handler_filter_string'),
     'argument' => array(
       'handler' => 'views_handler_argument_string'),
-      'relationship' => array(
+    'relationship' => array(
       'label' => 'Moodle teacher name',
       'database' => 'moodle',
       'base' => 'moodle_views_live.node',
@@ -607,7 +607,7 @@ function moodle_views_views_data() {
       'handler' => 'views_handler_sort'),
     'argument' => array(
       'label' => 'Badge ID',
-      'handler' => 'views_handler_argument_numeric'),
+      'handler' => 'moodle_views_handler_argument_badgeid'),
   );
   $data['badge']['name'] = array(
     'title' => t('Name'),
@@ -831,36 +831,89 @@ function moodle_views_views_data() {
     'title' => t('Moodle badges issued'),
     'help' => t('moodle badges issued to individual users.'),
     'database' => 'moodle');
+  $data['badge_issued']['id'] = array(
+    'title'=>'badge issued?',
+    'help' => 'boolean field to filter on whether a badge has an issued value based on relationship criteria',
+    'field' => array(
+      'handler' => 'views_handler_field_boolean',
+      'click sortable' => TRUE),
+    'filter' => array(
+      'allow empty'=>true,
+      'handler' => 'views_handler_filter_numeric',
+      'label' => t('Has a badge been issued?')),
+    'sort' => array(
+      'handler' => 'views_handler_sort'));
 
   $data['badge']['issued_badgeid'] = array(
     'real field'=>'id',
     'title'=>'issued badges',
     'help' => 'individual issued badges',
     'relationship' => array(
-      'handler' => 'views_handler_relationship_badges_issued',
+      'handler' => 'views_handler_relationship_product_join',
       'label' => 'Issued by badge',
       'database' => 'moodle',
       'base' => 'badge_issued',
       'base_field' => 'badgeid')
   );
   $data['badge_issued']['badgeid'] = array(
-    'real field'=>'cbptest',
     'title'=>'to badge',
     'help' => 'Badge issued to this badge',
     'relationship' => array(
+      'title' => "Badge information",
+      'help'=> 'Badge information related to the individual issuance of a badge',
+      'handler' => "views_handler_relationship_product_join",
       'label' => 'Badges',
       'database' => 'moodle',
       'base' => 'badge',
-      'base_field' => 'id')
+      'base_field' => 'id'),
+    'argument'=>array(
+      'title' => "Badge ID",
+      'help' => "The Badge ID of the issued instance of the badge.",
+      'handler'=>'views_handler_argument_numeric'
+    ),
+  );
+  // add in a product only relationship to users.
+  // this will give the filtered badges for every user
+  $data['user']['badgeproduct']= array(
+    'real field'=>'id',
+    'relationship' => array(
+      'title' => "All Badges",
+      'help'=> 'This gives all badges regardless of issuance. This creates a product join (rows=users*badges) and should be used with a filter',
+      'disable_fk'=>true,
+      'handler' => "views_handler_relationship_product_join",
+      'label' => 'Badges',
+      'database' => 'moodle',
+      'base' => 'badge',
+      'base_field' => 'id'),
   );
   $data['badge_issued']['userid'] = array(
     'title'=>'to user',
     'help' => 'Badge issued to this user',
+    'argument' => array(
+      'handler'=>"moodle_views_handler_argument_userid",
+      'label' => "Badge Issued UID",
+    ),
     'relationship' => array(
+      'handler' => 'views_handler_relationship_composite_key',
       'label' => 'Badge User',
       'database' => 'moodle',
       'base' => 'user',
-      'base_field' => 'id')
+      'base field' => 'id'),
+  );
+  //map users to issued badges
+  $data['user']['badge_userid']=array(
+    'real field'=>'id',
+    'title'=>"Issued Badges",
+    'help'=>"Unfiltered list of badges issued for the related users",
+    'relationship' => array(
+      'handler' => 'views_handler_relationship_composite_key',
+      'extra keys'=>array(
+        'badgeid',
+      ),
+      'label' => 'Badge User',
+      'database' => 'moodle',
+      'base' => 'badge_issued',
+      'base field' => 'id'),
   );
   $data['badge_issued']['uniquehash'] = array(
     'title' => t('Unique hash'),
@@ -902,6 +955,7 @@ function moodle_views_views_data() {
       'handler' => 'views_handler_field_boolean',
       'click sortable' => TRUE),
     'filter' => array(
+      'use equal'=>true,
       'handler' => 'views_handler_filter_boolean_operator',
       'label' => t('Visible')),
     'sort' => array(
@@ -921,11 +975,45 @@ function moodle_views_views_data() {
   return $data;
 }
 
+//CONSTANTS COPIED FROM moodle/badges/badgeslib.php
+
+/*
+ * Inactive badge means that this badge cannot be earned and has not been awarded
+ * yet. Its award criteria can be changed.
+ */
+define('BADGE_STATUS_INACTIVE', 0);
+
+/*
+ * Active badge means that this badge can we earned, but it has not been awarded
+ * yet. Can be deactivated for the purpose of changing its criteria.
+ */
+define('BADGE_STATUS_ACTIVE', 1);
+
+/*
+ * Inactive badge can no longer be earned, but it has been awarded in the past and
+ * therefore its criteria cannot be changed.
+ */
+define('BADGE_STATUS_INACTIVE_LOCKED', 2);
+
+/*
+ * Active badge means that it can be earned and has already been awarded to users.
+ * Its criteria cannot be changed any more.
+ */
+define('BADGE_STATUS_ACTIVE_LOCKED', 3);
+
+/*
+ * Archived badge is considered deleted and can no longer be earned and is not
+ * displayed in the list of all badges.
+ */
+define('BADGE_STATUS_ARCHIVED', 4);
+
+
 function moodle_views_badge_status_values(){
   return array(
-    3 => 'active',
-    2 => 'disabled',
-    4 => 'deleted',
-    0 => 'inactive'
+    BADGE_STATUS_ACTIVE => 'active (not yet awarded)',
+    BADGE_STATUS_ACTIVE_LOCKED => 'active (badges awarded)',
+    BADGE_STATUS_INACTIVE_LOCKED => 'disabled (badges awarded)',
+    BADGE_STATUS_ARCHIVED => 'deleted',
+    BADGE_STATUS_INACTIVE => 'inactive (not yet awarded)'
   );
 }
